@@ -8,6 +8,6 @@ package org.allenai.common
 case class ComponentId(name: String, version: Version)
 
 object ComponentId {
-  import spray.json.DefaultJsonProtocol._
+  import spray.json.DefaultJsonProtocol._    
   implicit val componentIdJsonFormat = jsonFormat2(ComponentId.apply)
 }
