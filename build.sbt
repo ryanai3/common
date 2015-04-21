@@ -1,3 +1,6 @@
+import sbtrelease._
+import ReleaseStateTransformations._
+
 lazy val buildSettings = Seq(
   organization := "org.allenai.common",
   crossScalaVersions := Seq("2.11.5"),
@@ -18,7 +21,17 @@ lazy val buildSettings = Seq(
         <name>Allen Institute for Artificial Intelligence</name>
         <email>dev-role@allenai.org</email>
       </developer>
-    </developers>)
+    </developers>),
+  ReleaseKeys.releaseProcess := Seq[ReleaseStep](
+    checkSnapshotDependencies,
+    inquireVersions,
+    runTest,
+    setReleaseVersion,
+    commitReleaseVersion,
+    tagRelease,
+    setNextVersion,
+    commitNextVersion
+  )
 ) ++ PublishTo.sonatype
 
 lazy val testkit = Project(
@@ -42,4 +55,15 @@ lazy val webapp = Project(
 lazy val common = Project(id = "common", base = file(".")).settings(
   // Don't publish a jar for the root project.
   publishArtifact := false, publishTo := Some("dummy" at "nowhere"), publish := { }, publishLocal := { }
-).aggregate(webapp, core, testkit).enablePlugins(LibraryPlugin)
+).aggregate(webapp, core, testkit).enablePlugins(LibraryPlugin).settings(
+  ReleaseKeys.releaseProcess := Seq[ReleaseStep](
+    checkSnapshotDependencies,
+    inquireVersions,
+    runTest,
+    setReleaseVersion,
+    commitReleaseVersion,
+    tagRelease,
+    setNextVersion,
+    commitNextVersion
+  )
+)
