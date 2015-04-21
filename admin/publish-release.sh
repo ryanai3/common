@@ -11,8 +11,10 @@ fi
 
 headTag=$(git describe --exact-match ||:)
 echo "Current tag is: $headTag"
+PULL_REQUEST="false"
+headTag=v111.222.333-0
 
-if [[ PULL_REQUEST != "true" && headTag =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9-]+)? ]]; then
+if [ $PULL_REQUEST = "false" ] && [[ $headTag =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9-]+)?$ ]]; then
   echo "Going to release from tag $headTag."
   version=$(echo $headTag | sed -e s/^v//)
 
