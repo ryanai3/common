@@ -31,9 +31,9 @@ Now, you need to register your GPG key.
    Paul Allen Institute for Artificial Intelligence <account>
    abcdefg
    ```
- 
+
    When you hit [TAB], SBT should print out the available key and its ID on the second line (in the example above, `abcdefg`. Enter the id:
- 
+
    ```bash
    > pgp-cmd send-key abcdefg hkp://keyserver.ubuntu.com [ENTER]
    ```
