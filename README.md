@@ -17,6 +17,7 @@ Releasing new versions
 
 This project releases to Maven Central rather than to our own repository. To do this, you need a bit of setup.
 
+
  1. You need the signing keys to publish software with. You can find them in the `ai2-secure` bucket in S3 under the key `Sonatype Key Pair.zip`. Copy that file to `~/.sbt/gpg/` and extract it there.
  2. You need the passphrase for that key pair. It's defined as an array, which is a little weird, and goes into another location in `~/.sbt`. The line defining it is in `passwords.txt` in the `ai2-secure` bucket. Copy that line into `~/.sbt/0.13/allenai.sbt` (or into some other `.sbt` if you like).
  3. To use the passphrase, we have to enable the `sbt-pgp` plugin. Put the following line into `~/.sbt/0.13/plugins/gpg.sbt`: `addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")`
