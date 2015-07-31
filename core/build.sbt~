@@ -1,0 +1,12 @@
+import Dependencies._
+
+name := "common-core"
+
+libraryDependencies ++= Seq(
+  sprayJson,
+  typesafeConfig,
+  "org. 
+  Logging.logbackClassic,
+  Logging.logbackCore,
+  Logging.slf4jApi
+)

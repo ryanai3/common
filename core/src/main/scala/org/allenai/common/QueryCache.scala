@@ -20,20 +20,18 @@ class QueryCache(redisHostname: String, clientPrefix: String) extends Logging {
 
   val jedisPool = new JedisPool(new JedisPoolConfig, redisHostname)
 
-  private val Newline = """\n""".r
-
   /** Trivial Helper to construct cache key with client prefix.
     */
   private def keyForQuery(query: String): String = s"${clientPrefix}_$query"
 
   /** @return the cached result for the given query, or None if it isn't in the cache */
-  def get(query: String): Option[Seq[String]] = {
+  def get(query: String): Option[String] = {
     val cacheKey = keyForQuery(query)
     withJedis { jedis =>
       val cachedResult = jedis.get(cacheKey)
       if (cachedResult != null) {
         logger.trace(s"Found in cache: key: ${cacheKey}, value: ${cachedResult}")
-        Some(Newline.split(cachedResult))
+        Some(cachedResult))
       } else {
         None
       }
@@ -41,10 +39,10 @@ class QueryCache(redisHostname: String, clientPrefix: String) extends Logging {
   }
 
   /** Stores the given query / response pair in the cache. */
-  def put(query: String, response: Seq[String]): Unit = {
+  def put(query: String, response: String): Unit = {
     val cacheKey = keyForQuery(query)
     withJedis { jedis =>
-      jedis.set(cacheKey, response.mkString("\n"))
+      jedis.set(cacheKey, response))
       logger.trace(s"Added query ${cacheKey} to cache")
     }
   }
